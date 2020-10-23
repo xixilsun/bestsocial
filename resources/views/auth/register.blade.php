@@ -60,19 +60,46 @@
                         <div class="sign-in-from">
                             <h1 class="mb-0">Sign Up</h1>
                             <p>Enter your email address and password to access admin panel.</p>
-                            <form class="mt-4">
+                            <form class="mt-4" method="POST" action="{{ route('register') }}">
+                                @csrf
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Your Full Name</label>
-                                    <input type="email" class="form-control mb-0" id="exampleInputEmail1" placeholder="Your Full Name">
+                                    <label for="name">Your Full Name</label>
+                                    <input type="text" id="name" class="form-control mb-0 @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+
+                                    @error('name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail2">Email address</label>
-                                    <input type="email" class="form-control mb-0" id="exampleInputEmail2" placeholder="Enter email">
+                                    <input type="email" class="form-control mb-0 @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+
+                                    @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">Password</label>
-                                    <input type="password" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password">
+                                    <label for="password">Password</label>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <input type="password" class="form-control mb-0 @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" id="password">
+                                            @error('password')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                            
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="password" class="form-control mb-0 @error('password') is-invalid @enderror" name="password_confirmation" required autocomplete="new-password">
+                                        </div>
+                                    </div>
                                 </div>
+
                                 <div class="d-inline-block w-100">
                                     <div class="custom-control custom-checkbox d-inline-block mt-2 pt-1">
                                         <input type="checkbox" class="custom-control-input" id="customCheck1">
@@ -81,7 +108,7 @@
                                     <button type="submit" class="btn btn-primary float-right">Sign Up</button>
                                 </div>
                                 <div class="sign-info">
-                                    <span class="dark-color d-inline-block line-height-2">Already Have Account ? <a href="#">Log In</a></span>
+                                    <span class="dark-color d-inline-block line-height-2">Already Have Account ? <a href="login">Log In</a></span>
                                     <ul class="iq-social-media">
                                         <li><a href="#"><i class="ri-facebook-box-line"></i></a></li>
                                         <li><a href="#"><i class="ri-twitter-line"></i></a></li>

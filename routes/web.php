@@ -11,10 +11,12 @@
 |
 */
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
-
 Auth::routes();
 Route::get('/home', function () {
     return view('template.master');

@@ -48,7 +48,19 @@ class PostController extends Controller
         ]);
         return redirect('/feed')->with('success','Post Berhasil disimpan!');
     }
-
+    public function store_from_profile(Request $request)
+    {
+        $user = Auth::user();
+        $request->validate([
+            'caption' => '',
+            'picture' => 'mimes:jpeg,bmp,png'
+        ]);
+        $post = $user->posts()->create([
+            'caption' => $request['caption'],
+            'picture' => $request['picture']
+        ]);
+        return redirect()->back()->with('success','Post Created!');;
+    }
     /**
      * Display the specified resource.
      *

@@ -21,6 +21,6 @@ Auth::routes();
 // Route::get('/home', function () {
 //     return view('home');
 // });
-Route::get('/profile/{id}','ProfileController@show');
 Route::resource('/feed','PostController');
+Route::get('/profile/{id}','ProfileController@show');
 //Route::get('/home', 'HomeController@index')->name('home');

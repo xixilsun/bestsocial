@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Redirect;
+use App;
 class ProfileController extends Controller
 {
     /**
@@ -14,7 +15,6 @@ class ProfileController extends Controller
     public function index()
     {
         //
-        // return view('profile.index');
     }
 
     /**
@@ -49,7 +49,24 @@ class ProfileController extends Controller
         //
         return view('profile.show', compact('id'));
     }
-
+    public function follow($id, Request $request)
+    {
+        // dd($request);
+        
+        if($request['type']=='follow')
+        {
+            App\Follow::create([
+                'follower_id' => $request['follower_id'],
+                'following_id' => $request['following_id'],
+            ]);
+        }
+        else
+        {
+            App\Follow::where('follower_id','=' ,$request['follower_id'])
+                ->where('following_id','=',$request['following_id'])->first()->delete();
+        }
+        return redirect('/profile/'.$id);
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -71,6 +88,7 @@ class ProfileController extends Controller
     public function update(Request $request, $id)
     {
         //
+        
     }
 
     /**

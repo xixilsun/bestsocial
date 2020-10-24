@@ -23,4 +23,6 @@ Auth::routes();
 // });
 Route::resource('/feed','PostController');
 Route::get('/profile/{id}','ProfileController@show');
+Route::post('/profile/{id}','ProfileController@follow');
+Route::put('/profile/{id}','ProfileController@update');
 //Route::get('/home', 'HomeController@index')->name('home');

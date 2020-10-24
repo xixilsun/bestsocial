@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App;
 class ProfileController extends Controller
 {
@@ -88,7 +90,30 @@ class ProfileController extends Controller
     public function update(Request $request, $id)
     {
         //
-        
+        $user = Auth::User();
+        // dd($request);
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'biodata' => 'required',
+            'old_password' => ['required',
+                function($attribute,$value,$fail) use ($user)
+                {
+                    if(!Hash::check($value, $user->password))
+                    {
+                        $fail('Old password is wrong');
+                    }
+                }
+            ],
+            'password' => 'required|confirmed',
+        ]);
+        $hashedPass = Hash::make($request['password']);
+        $user->name = $request['name'];
+        $user->email = $request['email'];
+        $user->biodata = $request['biodata'];
+        $user->password = $hashedPass;
+        $user->update();
+        return redirect('/profile/'.$id)->with('success','Profile Updated!');;
     }
 
     /**

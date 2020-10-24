@@ -845,7 +845,7 @@
                                     <div class="tab-pane fade" id="edit" role="tabpanel">
                                         <h4 class="mb-3">Edit Profile</h4>
                                         <div class="sign-in-from">
-                                            <form class="mt-4" method="POST" action="/profile/{{Auth::User()->id}}/edit">
+                                            <form class="mt-4" method="POST" action="/profile/{{Auth::User()->id}}">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="form-group">
@@ -863,6 +863,15 @@
                                                     <input type="email" class="form-control mb-0 @error('email') is-invalid @enderror" name="email" value="{{ old('email',Auth::User()->email) }}" required autocomplete="email">
 
                                                     @error('email')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="biodata">Biodata</label>
+                                                    <input type="text" class="form-control mb-0 @error('biodata') is-invalid @enderror" name="biodata" value="{{ old('biodata',Auth::User()->biodata) }}" required autocomplete="biodata">
+                                                    @error('biodata')
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $message }}</strong>
                                                         </span>

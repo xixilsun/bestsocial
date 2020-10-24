@@ -17,8 +17,8 @@ class CreateFollowsTable extends Migration
             $table->bigIncrements('follow_id');
             $table->unsignedBigInteger('follower_id');
             $table->unsignedBigInteger('following_id');
-            $table->foreign('follower_id')->references('id')->on('user');
-            $table->foreign('following_id')->references('id')->on('user');
+            $table->foreign('follower_id')->references('id')->on('users');
+            $table->foreign('following_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

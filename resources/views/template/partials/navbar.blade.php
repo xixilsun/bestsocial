@@ -24,10 +24,10 @@
          <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto navbar-list">
                <li>
-                  <a href="profile.html" class="iq-waves-effect d-flex align-items-center">
+                  <a href="/profile/{{Auth::User()->id}}" class="iq-waves-effect d-flex align-items-center">
                      <img src="{{asset('template/images/user/1.jpg')}}" class="img-fluid rounded-circle mr-3" alt="user">
                      <div class="caption">
-                        <h6 class="mb-0 line-height">Bni Cyst</h6>
+                        <h6 class="mb-0 line-height">{{Auth::User()->name}}</h6>
                      </div>
                   </a>
                </li>

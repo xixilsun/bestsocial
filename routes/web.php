@@ -21,4 +21,5 @@ Auth::routes();
 Route::get('/home', function () {
     return view('template.master');
 });
+Route::get('/profile/{id}','ProfileController@show');
 //Route::get('/home', 'HomeController@index')->name('home');

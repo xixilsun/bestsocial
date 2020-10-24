@@ -17,8 +17,8 @@ class CreatePostCommentLikesTable extends Migration
             $table->bigIncrements('post_comment_like_id');
             $table->unsignedBigInteger('post_comment_id');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('post_comment_id')->references('post_comment_id')->on('post_comments');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('post_comment_id')->references('post_comment_id')->on('post_comments')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

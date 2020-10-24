@@ -23,6 +23,7 @@ Auth::routes();
 // });
 Route::resource('/feed','PostController');
 Route::resource('/comment','PostCommentController');
+Route::get('/delete_comment/{id}','PostCommentController@destroy');
 Route::post('/comment/storeProfile','PostCommentController@storeProfile');
 Route::post('/like','PostController@like');
 Route::post('/dislike/{id}','PostController@dislike');

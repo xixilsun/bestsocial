@@ -1,6 +1,6 @@
 @extends('template.master')
 @section('content')
-<!-- <div id="content-page" class="content-page"> -->
+<div id="content-page" class="content-page">
             <div class="container">
                <div class="row">
                   <!-- Main posts -->
@@ -18,6 +18,7 @@
                                     <img src="{{asset('template/images/user/1.jpg')}}" alt="userimg" class="avatar-60 rounded-circle">
                                  </div>
                                  <form class="post-text ml-3 w-100" action="javascript:void();">
+                                    @csrf
                                     <input type="text" class="form-control rounded" placeholder="Write something here..." style="border:none;">
                                  </form>
                               </div>
@@ -52,98 +53,103 @@
                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="ri-close-fill"></i></button>
                                     </div>
                                     <div class="modal-body">
-                                       <div class="d-flex align-items-center">
-                                          <div class="user-img">
-                                             <img src="{{asset('template/images/user/1.jpg')}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
-                                          </div>
-                                          <form class="post-text ml-3 w-100" action="javascript:void();">
-                                             <input type="text" class="form-control rounded" placeholder="Write something here..." style="border:none;">
-                                          </form>
-                                       </div>
-                                       <hr>
-                                       <ul class="d-flex flex-wrap align-items-center list-inline m-0 p-0">
-                                          <li class="col-md-6 mb-3">
-                                             <div class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/07.png')}}" alt="icon" class="img-fluid"> Photo/Video</div>
-                                          </li>
-                                          <li class="col-md-6 mb-3">
-                                             <div class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/08.png')}}" alt="icon" class="img-fluid"> Tag Friend</div>
-                                          </li>
-                                          <li class="col-md-6 mb-3">
-                                             <div class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/09.png')}}" alt="icon" class="img-fluid"> Feeling/Activity</div>
-                                          </li>
-                                          <li class="col-md-6 mb-3">
-                                             <div class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/10.png')}}" alt="icon" class="img-fluid"> Check in</div>
-                                          </li>
-                                          <li class="col-md-6 mb-3">
-                                             <div class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/11.png')}}" alt="icon" class="img-fluid"> Live Video</div>
-                                          </li>
-                                          <li class="col-md-6 mb-3">
-                                             <div class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/12.png')}}" alt="icon" class="img-fluid"> Gif</div>
-                                          </li>
-                                          <li class="col-md-6 mb-3">
-                                             <div class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/13.png')}}" alt="icon" class="img-fluid"> Watch Party</div>
-                                          </li>
-                                          <li class="col-md-6 mb-3">
-                                             <div class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/14.png')}}" alt="icon" class="img-fluid"> Play with Friends</div>
-                                          </li>
-                                       </ul>
-                                       <hr>
-                                       <div class="other-option">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <div class="user-img mr-3">
-                                                   <img src="{{asset('template/images/user/1.jpg')}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
-                                                </div>
-                                                <h6>Your Story</h6>
+                                       <form role="form" action="/feed" method="POST">
+                                       @csrf
+                                          <div class="d-flex align-items-center">
+                                             <div class="user-img">
+                                                <img src="{{asset('template/images/user/1.jpg')}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
                                              </div>
-                                             <div class="iq-card-post-toolbar">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                   <span class="btn btn-primary">Friend</span>
-                                                   </span>
-                                                   <div class="dropdown-menu m-0 p-0">
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                            <div class="icon font-size-20"><i class="ri-save-line"></i></div>
-                                                            <div class="data ml-2">
-                                                               <h6>Public</h6>
-                                                               <p class="mb-0">Anyone on or off Facebook</p>
+                                             
+                                                <div class="post-text ml-3 w-100">
+                                                   <input type="text" class="form-control rounded" placeholder="Write something here..." style="border:none;" name="caption">
+                                                   <input type="text" class="form-control rounded" placeholder="Contoh doang" style="border:none;" name="picture">
+                                                </div>
+                                          </div>
+                                          <hr>
+                                          <ul class="d-flex flex-wrap align-items-center list-inline m-0 p-0">
+                                             <li class="col-md-6 mb-3">
+                                                <div class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/07.png')}}" alt="icon" class="img-fluid"> Photo/Video</div>
+                                             </li>
+                                             <li class="col-md-6 mb-3">
+                                                <div class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/08.png')}}" alt="icon" class="img-fluid"> Tag Friend</div>
+                                             </li>
+                                             <li class="col-md-6 mb-3">
+                                                <div class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/09.png')}}" alt="icon" class="img-fluid"> Feeling/Activity</div>
+                                             </li>
+                                             <li class="col-md-6 mb-3">
+                                                <div class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/10.png')}}" alt="icon" class="img-fluid"> Check in</div>
+                                             </li>
+                                             <li class="col-md-6 mb-3">
+                                                <div class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/11.png')}}" alt="icon" class="img-fluid"> Live Video</div>
+                                             </li>
+                                             <li class="col-md-6 mb-3">
+                                                <div class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/12.png')}}" alt="icon" class="img-fluid"> Gif</div>
+                                             </li>
+                                             <li class="col-md-6 mb-3">
+                                                <div class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/13.png')}}" alt="icon" class="img-fluid"> Watch Party</div>
+                                             </li>
+                                             <li class="col-md-6 mb-3">
+                                                <div class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/14.png')}}" alt="icon" class="img-fluid"> Play with Friends</div>
+                                             </li>
+                                          </ul>
+                                          <hr>
+                                          <div class="other-option">
+                                             <div class="d-flex align-items-center justify-content-between">
+                                                <div class="d-flex align-items-center">
+                                                   <div class="user-img mr-3">
+                                                      <img src="{{asset('template/images/user/1.jpg')}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
+                                                   </div>
+                                                   <h6>Your Story</h6>
+                                                </div>
+                                                <div class="iq-card-post-toolbar">
+                                                   <div class="dropdown">
+                                                      <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                                      <span class="btn btn-primary">Friend</span>
+                                                      </span>
+                                                      <div class="dropdown-menu m-0 p-0">
+                                                         <a class="dropdown-item p-3" href="#">
+                                                            <div class="d-flex align-items-top">
+                                                               <div class="icon font-size-20"><i class="ri-save-line"></i></div>
+                                                               <div class="data ml-2">
+                                                                  <h6>Public</h6>
+                                                                  <p class="mb-0">Anyone on or off Facebook</p>
+                                                               </div>
                                                             </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                            <div class="icon font-size-20"><i class="ri-close-circle-line"></i></div>
-                                                            <div class="data ml-2">
-                                                               <h6>Friends</h6>
-                                                               <p class="mb-0">Your Friend on facebook</p>
+                                                         </a>
+                                                         <a class="dropdown-item p-3" href="#">
+                                                            <div class="d-flex align-items-top">
+                                                               <div class="icon font-size-20"><i class="ri-close-circle-line"></i></div>
+                                                               <div class="data ml-2">
+                                                                  <h6>Friends</h6>
+                                                                  <p class="mb-0">Your Friend on facebook</p>
+                                                               </div>
                                                             </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                            <div class="icon font-size-20"><i class="ri-user-unfollow-line"></i></div>
-                                                            <div class="data ml-2">
-                                                               <h6>Friends except</h6>
-                                                               <p class="mb-0">Don't show to some friends</p>
+                                                         </a>
+                                                         <a class="dropdown-item p-3" href="#">
+                                                            <div class="d-flex align-items-top">
+                                                               <div class="icon font-size-20"><i class="ri-user-unfollow-line"></i></div>
+                                                               <div class="data ml-2">
+                                                                  <h6>Friends except</h6>
+                                                                  <p class="mb-0">Don't show to some friends</p>
+                                                               </div>
                                                             </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                            <div class="icon font-size-20"><i class="ri-notification-line"></i></div>
-                                                            <div class="data ml-2">
-                                                               <h6>Only Me</h6>
-                                                               <p class="mb-0">Only me</p>
+                                                         </a>
+                                                         <a class="dropdown-item p-3" href="#">
+                                                            <div class="d-flex align-items-top">
+                                                               <div class="icon font-size-20"><i class="ri-notification-line"></i></div>
+                                                               <div class="data ml-2">
+                                                                  <h6>Only Me</h6>
+                                                                  <p class="mb-0">Only me</p>
+                                                               </div>
                                                             </div>
-                                                         </div>
-                                                      </a>
+                                                         </a>
+                                                      </div>
                                                    </div>
                                                 </div>
                                              </div>
                                           </div>
-                                       </div>
-                                       <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
+                                          <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
+                                       </form>
                                     </div>
                                  </div>
                               </div>

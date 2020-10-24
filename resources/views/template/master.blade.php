@@ -15,6 +15,7 @@
       <link rel="stylesheet" href="{{asset('template/css/style.css')}}">
       <!-- Responsive CSS -->
       <link rel="stylesheet" href="{{asset('template/css/responsive.css')}}">
+      
    </head>
    <body class="right-column-fixed">
       <!-- loader Start -->
@@ -84,5 +85,6 @@
       <script src="{{asset('template/js/chart-custom.js')}}"></script>
       <!-- Custom JavaScript -->
       <script src="{{asset('template/js/custom.js')}}"></script>
+      @stack('scripts')
    </body>
 </html>

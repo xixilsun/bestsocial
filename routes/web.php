@@ -22,6 +22,7 @@ Auth::routes();
 //     return view('home');
 // });
 Route::resource('/feed','PostController');
+Route::resource('/comment','PostCommentController');
 Route::get('/profile/{id}','ProfileController@show');
 Route::post('/profile/{id}','ProfileController@follow');
 Route::put('/profile/{id}','ProfileController@update');

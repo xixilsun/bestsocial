@@ -107,6 +107,7 @@ class PostCommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $comment = Post_comment::destroy($id);
+        return redirect()->back()->with('success','Komentar berhasil dihapus!');
     }
 }

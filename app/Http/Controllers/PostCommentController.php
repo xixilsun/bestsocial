@@ -3,26 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Post;
+use App\Post_comment;
 use Auth;
-use App\Post_like;
 
-class PostController extends Controller
+class PostCommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct(){
-        $this->middleware('auth');
-    }
-
     public function index()
     {
-        $post = Post::orderBy('post_id', 'DESC')->get();
-
-        return view('home',compact('post'));
+        
     }
 
     /**
@@ -30,10 +23,10 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function create()
-    // {
-    //     //
-    // }
+    public function create()
+    {
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -44,51 +37,44 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
+        if ($request["comment"] ==NULL) {
+            $validatedData = $request->validate([
+                'comment' => 'required'
+            ]);
+        }
         //one to many
-        $post = $user->posts()->create([
-            "caption"=>$request["caption"],
-            "picture"=>$request["picture"]
+        $post = $user->post_comments()->create([
+            "comment"=>$request["comment"],
+            "post_id"=>$request["post_id"]
         ]);
-        return redirect('/feed')->with('success','Post Berhasil disimpan!');
+        return redirect('/feed');
     }
-    public function like(Request $request)
+    public function storeProfile(Request $request)
     {
         $user = Auth::user();
+        if ($request["comment"] ==NULL) {
+            $validatedData = $request->validate([
+                'comment' => 'required'
+            ]);
+        }
         //one to many
-        $post = $user->post_likes()->create([
+        $post = $user->post_comments()->create([
+            "comment"=>$request["comment"],
             "post_id"=>$request["post_id"]
         ]);
         return redirect()->back();
     }
-    public function dislike($id)
-    {
-        //one to many
-        $post = Post_like::destroy($id);
-        return redirect()->back();
-    }
-    public function store_from_profile(Request $request)
-    {
-        $user = Auth::user();
-        $request->validate([
-            'caption' => '',
-            'picture' => 'mimes:jpeg,bmp,png'
-        ]);
-        $post = $user->posts()->create([
-            'caption' => $request['caption'],
-            'picture' => $request['picture']
-        ]);
-        return redirect()->back()->with('success','Post Created!');
-    }
+
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function show($id)
-    // {
-    //     //
-    // }
+    public function show($id)
+    {
+        //
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -123,5 +109,4 @@ class PostController extends Controller
     {
         //
     }
-
 }

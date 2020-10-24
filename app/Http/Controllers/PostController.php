@@ -19,7 +19,9 @@ class PostController extends Controller
 
     public function index()
     {
-        return view('home');
+        $post = Post::all();
+
+        return view('home',compact('post'));
     }
 
     /**
@@ -59,7 +61,7 @@ class PostController extends Controller
             'caption' => $request['caption'],
             'picture' => $request['picture']
         ]);
-        return redirect()->back()->with('success','Post Created!');;
+        return redirect()->back()->with('success','Post Created!');
     }
     /**
      * Display the specified resource.

@@ -7,6 +7,7 @@ use App\Post;
 use Auth;
 use App\Post_like;
 use App\Post_comment_like;
+use App\User;
 class PostController extends Controller
 {
     /**
@@ -38,6 +39,11 @@ class PostController extends Controller
         $post = Post::whereIn('user_id',$id)->orderBy('post_id','DESC')->get();
         return view('home',compact('post'));
     }
+    public function find()
+    {
+        $users=User::all();
+        return view('find',compact('users'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -67,7 +73,7 @@ class PostController extends Controller
             $path = $request->file('picture')->storeAs($dest_path, $pict_name);
             $request->validate([
                 'caption' => 'required',
-                'picture' => 'mimes:jpeg,bmp,png'
+                'picture' => 'mimes:jpeg,bmp,png,jpg'
             ]);
             // dd($pict_name);
         }else{
@@ -81,7 +87,7 @@ class PostController extends Controller
             "caption"=>$request["caption"],
             "picture"=>$pict_name,
         ]);
-        return redirect('/feed')->with('success','Post Berhasil disimpan!');
+        return redirect()->back()->with('success','Post Berhasil disimpan!');
     }
     public function like(Request $request)
     {
@@ -118,7 +124,7 @@ class PostController extends Controller
         $user = Auth::user();
         $request->validate([
             'caption' => '',
-            'picture' => 'mimes:jpeg,bmp,png'
+            'picture' => 'mimes:jpeg,bmp,png,jpg'
         ]);
         $post = $user->posts()->create([
             'caption' => $request['caption'],
@@ -150,25 +156,9 @@ class PostController extends Controller
         $user = Auth::user();
         // dd($request);
         // one to many
-        if($request->hasFile('image'))
-        {
-            $dest_path = 'public/image/posts';
-            $pict_name = $request->file('image')->getClientOriginalName();
-            $path = $request->file('image')->storeAs($dest_path, $pict_name);
-            $request->validate([
-                'caption' => 'required',
-                'image' => 'mimes:jpeg,bmp,png'
-            ]);
-        }else{
-            $pict_name = null;
-            $request->validate([
-                'caption' => 'required',
-            ]);
-        }
-        // dd($request);
+        
         $post = Post::find($id);
         $post->caption = $request['caption'];
-        $post->picture = $pict_name;
         $post->save();
         return redirect()->back()->with('success','Post Updated!');
     }

@@ -23,7 +23,7 @@
       #customFile .custom-file-control:lang(en)::before {
       content: "Click me";
       }
-
+      
       </style>
    </head>
    <body class="right-column-fixed">

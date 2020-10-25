@@ -1,5 +1,8 @@
 @extends('template.master')
 @section('content')
+<?php
+   $link_image = asset('template/images/user/'.Auth::id().'.jpg');
+?>
 <div id="content-page" class="content-page">
 	<div class="container">
 		<div class="row">
@@ -15,7 +18,7 @@
 						<div class="iq-card-body" data-toggle="modal" data-target="#post-modal">
 							<div class="d-flex align-items-center">
 								<div class="user-img">
-									<img src="{{asset('template/images/user/1.jpg')}}" alt="userimg" class="avatar-60 rounded-circle">
+									<img src="{{$link_image}}" alt="userimg" class="avatar-60 rounded-circle">
 								</div>
 								<form class="post-text ml-3 w-100" action="javascript:void();">
 									@csrf
@@ -24,7 +27,7 @@
 							</div>
 							<hr>
 							<ul class="post-opt-block d-flex align-items-center list-inline m-0 p-0">
-								<li class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/07.png')}}" alt="icon" class="img-fluid"> Photo/Video</li>
+								<li class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/07.png')}}" alt="icon" class="img-fluid"> Photo</li>
 							</ul>
 						</div>
 						<div class="modal fade" id="post-modal" tabindex="-1" role="dialog" aria-labelledby="post-modalLabel" aria-hidden="true" style="display: none;">
@@ -39,22 +42,20 @@
 										@csrf
 											<div class="d-flex align-items-center">
 												<div class="user-img">
-													<img src="{{asset('template/images/user/1.jpg')}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
+													<img src="{{$link_image}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
 												</div>
 												<div class="post-text ml-3 w-100">
-														<input type="text" class="form-control rounded" placeholder="Write something here..." style="border:none;" name="caption" id="caption">
-														<div class="form-group ml-2">
-															<label for="picture" class = "btn btn-primary">Upload Picture</label>
-															<input type="file" class="form-control-file custom-file-input" hidden name="picture" id="picture">
-															<label for="" class="" id="picture-file"></label>
-															@error('picture')
-																<span class="invalid-feedback" role="alert">
-																	<strong>{{ $message }}</strong>
-																</span>
-															@enderror
-														</div>
-
-														<input type="text" class="form-control rounded" placeholder="Contoh doang" style="border:none;" name="picture" id="picture">
+													<input type="text" class="form-control rounded" placeholder="Write something here..." style="border:none;" name="caption" id="caption">
+													<div class="form-group mt-4">
+														<label for="picture" class = "btn iq-bg-primary rounded p-2 pointer"><img src="{{asset('template/images/small/07.png')}}" alt="icon" class="img-fluid"> Photo</label>
+														<input type="file" class="form-control-file custom-file-input" hidden name="picture" id="picture">
+														<label class="ml-2" id="picture-file"></label>
+														@error('picture')
+															<span class="invalid-feedback" role="alert">
+																<strong>{{ $message }}</strong>
+															</span>
+														@enderror
+													</div>
 												</div>
 											</div>
 											<hr>
@@ -102,75 +103,37 @@
 					                  		?>
 					                  </p>
 					               	</div>
+					               	<!-- Edit Post -->
 									@if($posts->user->id == Auth::User()->id)
 									<div id="post-modal-data" class="iq-card">
 												<div class="modal fade" id="edit-post-modal" tabindex="-1" role="dialog" aria-labelledby="post-modalLabel" aria-hidden="true" style="display: none">
 													<div class="modal-dialog" role="document">
 														<div class="modal-content">
-														<div class="modal-header">
-															<h5 class="modal-title" id="post-modalLabel">Edit Post</h5>
-															<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="ri-close-fill"></i></button>
-														</div>
-														<div class="modal-body">
-															<form role="form" action="/post/{{$posts->post_id}}/edit" method="post" enctype="multipart/form-data">
-															@csrf
-																<div class="d-flex align-items-center">
-																	<div class="user-img">
-																		<img src="{{asset('template/images/user/1.jpg')}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
+															<div class="modal-header">
+																<h5 class="modal-title" id="post-modalLabel">Edit Post</h5>
+																<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="ri-close-fill"></i></button>
+															</div>
+															<div class="modal-body">
+																<form role="form" action="/post/{{$posts->post_id}}/edit" method="post" enctype="multipart/form-data">
+																@csrf
+																	<div class="d-flex align-items-center">
+																		<div class="user-img">
+																			<img src="{{asset('template/images/user/1.jpg')}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
+																		</div>
+																		<div class="post-text ml-3 w-100">
+																				<input type="text" class="form-control rounded" placeholder="Write something here..." value="{{$posts->caption}}" style="border:none;" name="caption" id="caption">
+																		</div>
 																	</div>
-																	<div class="post-text ml-3 w-100">
-																			<input type="text" class="form-control rounded" placeholder="Write something here..." style="border:none;" name="caption" id="caption">
-																			<div class="form-group ml-2">
-																				<label for="image" class = "btn btn-primary">Upload Picture</label>
-																				<input type="file" class="form-control-file custom-file-input" hidden name="image" id="picture">
-																				<!-- <input type="file" name="image" id="image"> -->
-																				<label for="" class="" id="image-file"></label>
-																				@error('image')
-																					<span class="invalid-feedback" role="alert">
-																						<strong>{{ $message }}</strong>
-																					</span>
-																				@enderror
-																			</div>
-
-																			<input type="text" class="form-control rounded" placeholder="Contoh doang" style="border:none;" name="picture" id="picture">
-																	</div>
-																</div>
-																<hr>
-																<input type="submit"class="btn btn-primary d-block w-100 mt-3 btnpost"  value="Edit Post">
-																<!-- <button type="submit" class="btn btn-primary d-block w-100 mt-3 btnpost" disabled = "disabled">Post</button> -->
-															</form>
-														</div>
-														<!-- <div class="modal-body">
-															<div class="d-flex align-items-center">
-																<form class="post-text ml-3 w-100" action="/feed/{{$posts->post_id}}/edit" enctype="multipart/form-data" method="GET">
-																	@csrf
-																	<div class="form-group">
-																		<input type="text" class="form-control rounded @error('caption') is-invalid @enderror" placeholder="Write something here..." style="border:none;" name="caption" id="edit-caption">
-																		@error('edit-caption')
-																			<span class="invalid-feedback" role="alert">
-																				<strong>{{ $message }}</strong>
-																			</span>
-																		@enderror
-																	</div>
-																	<div class="form-group ml-2">
-																		<label for="picture" class = "btn btn-primary">Upload Picture</label>
-																		<input type="file" class="form-control-file custom-file-input" hidden name="picture" id="picture">
-																		<label for="" class="" id="picture-file"></label>
-																		@error('picture')
-																			<span class="invalid-feedback" role="alert">
-																				<strong>{{ $message }}</strong>
-																			</span>
-																		@enderror
-																	</div>
-																	<input type="submit"class="btn btn-primary d-block w-100 mt-3" value="Post">
+																	<hr>
+																	<input type="submit"class="btn btn-primary d-block w-100 mt-3 btnpost"  value="Edit Post">
+																	<!-- <button type="submit" class="btn btn-primary d-block w-100 mt-3 btnpost" disabled = "disabled">Post</button> -->
 																</form>
 															</div>
-														</div> -->
 														</div>
 													</div>
 												</div>
 											</div>
-									<div class="iq-card-post-toolbar">
+									<div class="iq-card-post-toolbar" style="cursor: pointer;">
 										<div class="dropdown">
 											<span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
 											<i class="ri-more-fill"></i>
@@ -186,19 +149,23 @@
 												</div>
 											</a>
 											<form action="/post/{{$posts->post_id}}/delete" method="POST">
-											@csrf
-											@method('DELETE')
-											
-											<a class="dropdown-item p-3">
-												<div class="d-flex align-items-top">
-													<div class="icon font-size-20"><i class="ri-delete-bin-7-line"></i></div>
-													<div class="data ml-2">
-														<input type="submit" value="Delete" >
-														<!-- <h6>Delete</h6> -->
-														<p class="mb-0">Remove this Post from Timeline</p>
-													</div>
-												</div>
-											</a>
+												@csrf
+												@method('DELETE')
+												<a class="dropdown-item p-3" href="#">
+	                                                <div class="d-flex align-items-top">
+	                                                   <div class="icon font-size-20"><i class="ri-delete-bin-7-line"></i></div>
+	                                                   <div class="data ml-2">
+	                                                      <button type="submit" style="
+	                                                      	background: transparent;
+	                                                      	box-shadow: 0px 0px 0px transparent;
+	                                                      	border: 0px solid transparent;
+	                                                      	text-shadow: 0px 0px 0px transparent;
+	                                                      	padding: 0;
+	                                                      "><h6>Delete Post</h6></button>
+	                                                      <p class="mb-0">Delete your post</p>
+	                                                   </div>
+	                                                </div>
+	                                             </a>
 											</form>
 											
 											</div>
@@ -210,9 +177,11 @@
 					         <div class="mt-3">
 					            <p>{{$posts->caption}}</p>
 					         </div>
+					         @if($posts->picture!=NULL)
 					         <div class="user-post">
 					            <a href="javascript:void();"><img src="{{asset('storage/image/posts/'.$posts->picture)}}" alt="" class="img-fluid rounded w-100"></a>
 					         </div>
+					         @endif
 					         <div class="comment-area mt-3">
 					            <div class="d-flex justify-content-between align-items-center">
 					               <div class="like-block position-relative d-flex align-items-center">
@@ -227,7 +196,7 @@
 				                   	            <form class="d-flex align-items-center" role="form" action="/like" method="POST">
                    								@csrf
 				                   	              <input type="text" class="form-control rounded" name="post_id"  value="{{$posts->post_id}}" hidden>
-					                          	<input class="ml-2 mr-2 align-items-center" type="image" src="{{asset('template/images/icon/like.png')}}" data-toggle="tooltip" data-placement="top" data-original-title="Like" >
+					                          	<input class="ml-2 align-items-center" type="image" src="{{asset('template/images/icon/like.png')}}" data-toggle="tooltip" data-placement="top" data-original-title="Like" >
 					                          	
 					                          </form>
 					                          @else
@@ -235,7 +204,7 @@
 					                          	->where('user_id', Auth::User()->id)
 					                          	->where('post_id', $posts->post_id)->first()->post_like_id}}" method="POST">
                    								@csrf
-					                          	<input class="ml-2 mr-2 align-items-center" type="image" src="{{asset('template/images/icon/dislike.png')}}" data-toggle="tooltip" data-placement="top" data-original-title="Dislike" >
+					                          	<input class="ml-2 align-items-center" type="image" src="{{asset('template/images/icon/dislike.png')}}" data-toggle="tooltip" data-placement="top" data-original-title="Dislike" >
 					                          	
 					                          </form>
 					                          @endif
@@ -292,7 +261,7 @@
 				                   	            <form class="d-flex align-items-center" role="form" action="/comment/like" method="POST">
                    								@csrf
 				                   	              <input type="text" class="form-control rounded" name="post_comment_id"  value="{{$komen->post_comment_id}}" hidden>
-					                          	<input class="ml-2 mr-2 align-items-center" type="image" src="{{asset('template/images/icon/like.png')}}" data-toggle="tooltip" data-placement="top" data-original-title="Like" >
+					                          	<input class="ml-2 align-items-center" type="image" src="{{asset('template/images/icon/like.png')}}" style="width: 50%" data-toggle="tooltip" data-placement="top" data-original-title="Like" >
 					                          	
 					                          </form>
 					                          @else
@@ -300,13 +269,13 @@
 					                          	->where('user_id', Auth::User()->id)
 					                          	->where('post_comment_id', $komen->post_comment_id)->first()->post_comment_like_id}}" method="POST">
                    								@csrf
-					                          	<input class="ml-2 mr-2 align-items-center" type="image" src="{{asset('template/images/icon/dislike.png')}}" data-toggle="tooltip" data-placement="top" data-original-title="Dislike" >
+					                          	<input class="ml-2 align-items-center" type="image" src="{{asset('template/images/icon/dislike.png')}}" data-toggle="tooltip" data-placement="top" style="width: 50%" data-original-title="Dislike" >
 					                          	
 					                          </form>
 					                          @endif
 					                           <!-- <a href="javascript:void();">Like</a> -->
 					                           
-					                           <span> {{$komen->post_comment_likes()->count()}} Like</span>
+					                           <span class="mr-2"> {{$komen->post_comment_likes()->count()}} Likes</span>
 											   @if(Auth::id()==$komen->user_id)
 					                           <a href="/delete_comment/{{$komen->post_comment_id}}">delete</a>
 					                           @endif
@@ -450,9 +419,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-12 text-center">
-				<img src="{{asset('template/images/page-img/page-load-loader.gif')}}" alt="loader" style="height: 100px;">
-			</div>
 		</div>
 	</div>
 </div>
@@ -461,14 +427,14 @@
 @push('scripts')
 <script type="text/javascript">
 	$(document).ready(function() {
-	    $('#picture').keyup(function(){
+	    $('#picture-file').keyup(function(){
 	    	if($(this).val().length !=0){
 	    			$('.btnpost').attr('disabled', false);
 	    	}
 	    	else{
 	    		$('.btnpost').attr('disabled', true);
 	    	}
-      });
+      	});
   		$('#caption').keyup(function(){
 	    	if($(this).val().length !=0){
 	    			$('.btnpost').attr('disabled', false);
@@ -477,16 +443,11 @@
 	    		$('.btnpost').attr('disabled', true);
 	    	}
 	    });
-	document.querySelector('.custom-file-input').addEventListener('change',function(e){
-		var fileName = document.getElementById("picture").files[0].name;
-		var nextSibling = document.getElementById("picture-file");
-		nextSibling.innerText = fileName
-	});
-	document.querySelector('.edit-custom-file-input').addEventListener('change',function(e){
-		var fileName = document.getElementById("edit-picture").files[0].name;
-		var nextSibling = document.getElementById("edit-picture-file");
-		nextSibling.innerText = fileName
-	})
+		document.querySelector('.custom-file-input').addEventListener('change',function(e){
+			var fileName = document.getElementById("picture").files[0].name;
+			var nextSibling = document.getElementById("picture-file");
+			nextSibling.innerText = fileName;
+		});
 	});
 
 

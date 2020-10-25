@@ -67,7 +67,7 @@ class ProfileController extends Controller
             App\Follow::where('follower_id','=' ,$request['follower_id'])
                 ->where('following_id','=',$request['following_id'])->first()->delete();
         }
-        return redirect('/profile/'.$id);
+        return redirect()->back();
     }
     /**
      * Show the form for editing the specified resource.
@@ -96,22 +96,10 @@ class ProfileController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'biodata' => 'required',
-            'old_password' => ['required',
-                function($attribute,$value,$fail) use ($user)
-                {
-                    if(!Hash::check($value, $user->password))
-                    {
-                        $fail('Old password is wrong');
-                    }
-                }
-            ],
-            'password' => 'required|confirmed',
         ]);
-        $hashedPass = Hash::make($request['password']);
         $user->name = $request['name'];
         $user->email = $request['email'];
         $user->biodata = $request['biodata'];
-        $user->password = $hashedPass;
         $user->update();
         return redirect('/profile/'.$id)->with('success','Profile Updated!');;
     }

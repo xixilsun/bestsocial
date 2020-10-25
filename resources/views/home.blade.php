@@ -35,25 +35,31 @@
 										<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="ri-close-fill"></i></button>
 									</div>
 									<div class="modal-body">
-										<form role="form" action="/feed" method="POST">
+										<form role="form" action="/feed" method="POST" enctype="multipart/form-data">
 										@csrf
 											<div class="d-flex align-items-center">
 												<div class="user-img">
 													<img src="{{asset('template/images/user/1.jpg')}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
 												</div>
-												
-													<div class="post-text ml-3 w-100">
+												<div class="post-text ml-3 w-100">
 														<input type="text" class="form-control rounded" placeholder="Write something here..." style="border:none;" name="caption" id="caption">
+														<div class="form-group ml-2">
+															<label for="picture" class = "btn btn-primary">Upload Picture</label>
+															<input type="file" class="form-control-file custom-file-input" hidden name="picture" id="picture">
+															<label for="" class="" id="picture-file"></label>
+															@error('picture')
+																<span class="invalid-feedback" role="alert">
+																	<strong>{{ $message }}</strong>
+																</span>
+															@enderror
+														</div>
+
 														<input type="text" class="form-control rounded" placeholder="Contoh doang" style="border:none;" name="picture" id="picture">
-													</div>
+												</div>
 											</div>
 											<hr>
-											<ul class="d-flex flex-wrap align-items-center list-inline m-0 p-0">
-												<li class="col-md-6 mb-3">
-													<div class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/07.png')}}" alt="icon" class="img-fluid"> Photo/Video</div>
-												</li>
-													</ul>
-											<button type="submit" class="btn btn-primary d-block w-100 mt-3 btnpost" disabled = "disabled">Post</button>
+											<input type="submit"class="btn btn-primary d-block w-100 mt-3 btnpost" disabled = "disabled" value="Post">
+											<!-- <button type="submit" class="btn btn-primary d-block w-100 mt-3 btnpost" disabled = "disabled">Post</button> -->
 										</form>
 									</div>
 								</div>
@@ -95,59 +101,117 @@
 					                  		}
 					                  		?>
 					                  </p>
-					               </div>
-					               <div class="iq-card-post-toolbar">
-					                  <div class="dropdown">
-					                     <span class="dropdown-toggle" id="postdata-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-					                     <i class="ri-more-fill" style ="cursor:pointer"></i>
-					                     </span>
-					                     <div class="dropdown-menu m-0 p-0" aria-labelledby="postdata-5">
-					                        <a class="dropdown-item p-3" href="#">
-					                           <div class="d-flex align-items-top">
-					                              <div class="icon font-size-20"><i class="ri-save-line"></i></div>
-					                              <div class="data ml-2">
-					                                 <h6>Save Post</h6>
-					                                 <p class="mb-0">Add this to your saved items</p>
-					                              </div>
-					                           </div>
-					                        </a>
-					                        <a class="dropdown-item p-3" href="#">
-					                           <div class="d-flex align-items-top">
-					                              <div class="icon font-size-20"><i class="ri-close-circle-line"></i></div>
-					                              <div class="data ml-2">
-					                                 <h6>Hide Post</h6>
-					                                 <p class="mb-0">See fewer posts like this.</p>
-					                              </div>
-					                           </div>
-					                        </a>
-					                        <a class="dropdown-item p-3" href="#">
-					                           <div class="d-flex align-items-top">
-					                              <div class="icon font-size-20"><i class="ri-user-unfollow-line"></i></div>
-					                              <div class="data ml-2">
-					                                 <h6>Unfollow User</h6>
-					                                 <p class="mb-0">Stop seeing posts but stay friends.</p>
-					                              </div>
-					                           </div>
-					                        </a>
-					                        <a class="dropdown-item p-3" href="#">
-					                           <div class="d-flex align-items-top">
-					                              <div class="icon font-size-20"><i class="ri-notification-line"></i></div>
-					                              <div class="data ml-2">
-					                                 <h6>Notifications</h6>
-					                                 <p class="mb-0">Turn on notifications for this post</p>
-					                              </div>
-					                           </div>
-					                        </a>
-					                     </div>
-					                  </div>
-					               </div>
+					               	</div>
+									@if($posts->user->id == Auth::User()->id)
+									<div id="post-modal-data" class="iq-card">
+												<div class="modal fade" id="edit-post-modal" tabindex="-1" role="dialog" aria-labelledby="post-modalLabel" aria-hidden="true" style="display: none">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="post-modalLabel">Edit Post</h5>
+															<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="ri-close-fill"></i></button>
+														</div>
+														<div class="modal-body">
+															<form role="form" action="/post/{{$posts->post_id}}/edit" method="post" enctype="multipart/form-data">
+															@csrf
+																<div class="d-flex align-items-center">
+																	<div class="user-img">
+																		<img src="{{asset('template/images/user/1.jpg')}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
+																	</div>
+																	<div class="post-text ml-3 w-100">
+																			<input type="text" class="form-control rounded" placeholder="Write something here..." style="border:none;" name="caption" id="caption">
+																			<div class="form-group ml-2">
+																				<label for="image" class = "btn btn-primary">Upload Picture</label>
+																				<input type="file" class="form-control-file custom-file-input" hidden name="image" id="picture">
+																				<!-- <input type="file" name="image" id="image"> -->
+																				<label for="" class="" id="image-file"></label>
+																				@error('image')
+																					<span class="invalid-feedback" role="alert">
+																						<strong>{{ $message }}</strong>
+																					</span>
+																				@enderror
+																			</div>
+
+																			<input type="text" class="form-control rounded" placeholder="Contoh doang" style="border:none;" name="picture" id="picture">
+																	</div>
+																</div>
+																<hr>
+																<input type="submit"class="btn btn-primary d-block w-100 mt-3 btnpost"  value="Edit Post">
+																<!-- <button type="submit" class="btn btn-primary d-block w-100 mt-3 btnpost" disabled = "disabled">Post</button> -->
+															</form>
+														</div>
+														<!-- <div class="modal-body">
+															<div class="d-flex align-items-center">
+																<form class="post-text ml-3 w-100" action="/feed/{{$posts->post_id}}/edit" enctype="multipart/form-data" method="GET">
+																	@csrf
+																	<div class="form-group">
+																		<input type="text" class="form-control rounded @error('caption') is-invalid @enderror" placeholder="Write something here..." style="border:none;" name="caption" id="edit-caption">
+																		@error('edit-caption')
+																			<span class="invalid-feedback" role="alert">
+																				<strong>{{ $message }}</strong>
+																			</span>
+																		@enderror
+																	</div>
+																	<div class="form-group ml-2">
+																		<label for="picture" class = "btn btn-primary">Upload Picture</label>
+																		<input type="file" class="form-control-file custom-file-input" hidden name="picture" id="picture">
+																		<label for="" class="" id="picture-file"></label>
+																		@error('picture')
+																			<span class="invalid-feedback" role="alert">
+																				<strong>{{ $message }}</strong>
+																			</span>
+																		@enderror
+																	</div>
+																	<input type="submit"class="btn btn-primary d-block w-100 mt-3" value="Post">
+																</form>
+															</div>
+														</div> -->
+														</div>
+													</div>
+												</div>
+											</div>
+									<div class="iq-card-post-toolbar">
+										<div class="dropdown">
+											<span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+											<i class="ri-more-fill"></i>
+											</span>
+											<div class="dropdown-menu m-0 p-0">
+											<a class="dropdown-item p-3" data-toggle="modal" data-target="#edit-post-modal">
+												<div class="d-flex align-items-top">
+													<div class="icon font-size-20"><i class="ri-pencil-line"></i></div>
+													<div class="data ml-2">
+														<h6>Edit Post</h6>
+														<p class="mb-0">Update your post</p>
+													</div>
+												</div>
+											</a>
+											<form action="/post/{{$posts->post_id}}/delete" method="POST">
+											@csrf
+											@method('DELETE')
+											
+											<a class="dropdown-item p-3">
+												<div class="d-flex align-items-top">
+													<div class="icon font-size-20"><i class="ri-delete-bin-7-line"></i></div>
+													<div class="data ml-2">
+														<input type="submit" value="Delete" >
+														<!-- <h6>Delete</h6> -->
+														<p class="mb-0">Remove this Post from Timeline</p>
+													</div>
+												</div>
+											</a>
+											</form>
+											
+											</div>
+										</div>
+									</div>
+									@endif
 					            </div>
 					         </div>
 					         <div class="mt-3">
 					            <p>{{$posts->caption}}</p>
 					         </div>
 					         <div class="user-post">
-					            <a href="javascript:void();"><img src="{{asset('template/images/page-img/p4.jpg')}}" alt="post-image" class="img-fluid rounded w-100"></a>
+					            <a href="javascript:void();"><img src="{{asset('storage/image/posts/'.$posts->picture)}}" alt="" class="img-fluid rounded w-100"></a>
 					         </div>
 					         <div class="comment-area mt-3">
 					            <div class="d-flex justify-content-between align-items-center">
@@ -393,7 +457,19 @@
 	    		$('.btnpost').attr('disabled', true);
 	    	}
 	    });
+	document.querySelector('.custom-file-input').addEventListener('change',function(e){
+		var fileName = document.getElementById("picture").files[0].name;
+		var nextSibling = document.getElementById("picture-file");
+		nextSibling.innerText = fileName
 	});
+	document.querySelector('.edit-custom-file-input').addEventListener('change',function(e){
+		var fileName = document.getElementById("edit-picture").files[0].name;
+		var nextSibling = document.getElementById("edit-picture-file");
+		nextSibling.innerText = fileName
+	})
+	});
+
+
 </script>
 
 @endpush

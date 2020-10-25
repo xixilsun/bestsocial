@@ -118,7 +118,7 @@
 																@csrf
 																	<div class="d-flex align-items-center">
 																		<div class="user-img">
-																			<img src="{{asset('template/images/user/1.jpg')}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
+																			<img src="{{$link_image}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
 																		</div>
 																		<div class="post-text ml-3 w-100">
 																				<input type="text" class="form-control rounded" placeholder="Write something here..." value="{{$posts->caption}}" style="border:none;" name="caption" id="caption">
@@ -151,17 +151,17 @@
 											<form action="/post/{{$posts->post_id}}/delete" method="POST">
 												@csrf
 												@method('DELETE')
-												<a class="dropdown-item p-3" href="#">
+												<a class="dropdown-item p-3">
 	                                                <div class="d-flex align-items-top">
 	                                                   <div class="icon font-size-20"><i class="ri-delete-bin-7-line"></i></div>
 	                                                   <div class="data ml-2">
-	                                                      <button type="submit" style="
+	                                                      <input type="submit" style="
 	                                                      	background: transparent;
 	                                                      	box-shadow: 0px 0px 0px transparent;
 	                                                      	border: 0px solid transparent;
 	                                                      	text-shadow: 0px 0px 0px transparent;
 	                                                      	padding: 0;
-	                                                      "><h6>Delete Post</h6></button>
+	                                                      " value="Delete Post">
 	                                                      <p class="mb-0">Delete your post</p>
 	                                                   </div>
 	                                                </div>

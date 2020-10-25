@@ -458,3 +458,32 @@ $link_image_profile = asset('template/images/user/'.$uriSegments[2].'.jpg');
 	</div>
 </div>
 @endsection
+@push('scripts')
+<script type="text/javascript">
+	$(document).ready(function() {
+	    $('#picture-file').keyup(function(){
+	    	if($(this).val().length !=0){
+	    			$('.btnpost').attr('disabled', false);
+	    	}
+	    	else{
+	    		$('.btnpost').attr('disabled', true);
+	    	}
+      	});
+  		$('#caption').keyup(function(){
+	    	if($(this).val().length !=0){
+	    			$('.btnpost').attr('disabled', false);
+	    	}
+	    	else{
+	    		$('.btnpost').attr('disabled', true);
+	    	}
+	    });
+		document.querySelector('.custom-file-input').addEventListener('change',function(e){
+			var fileName = document.getElementById("picture").files[0].name;
+			var nextSibling = document.getElementById("picture-file");
+			nextSibling.innerText = fileName;
+		});
+	});
+
+
+</script>
+@endpush

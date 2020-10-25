@@ -35,24 +35,29 @@
 										<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="ri-close-fill"></i></button>
 									</div>
 									<div class="modal-body">
-										<form role="form" action="/feed" method="POST">
+										<form role="form" action="/feed" method="POST" enctype="multipart/form-data">
 										@csrf
 											<div class="d-flex align-items-center">
 												<div class="user-img">
 													<img src="{{asset('template/images/user/1.jpg')}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
 												</div>
-												
-													<div class="post-text ml-3 w-100">
+												<div class="post-text ml-3 w-100">
 														<input type="text" class="form-control rounded" placeholder="Write something here..." style="border:none;" name="caption" id="caption">
+														<div class="form-group ml-2">
+															<label for="picture" class = "btn btn-primary">Upload Picture</label>
+															<input type="file" class="form-control-file custom-file-input" hidden name="picture" id="picture">
+															<label for="" class="" id="picture-file"></label>
+															@error('picture')
+																<span class="invalid-feedback" role="alert">
+																	<strong>{{ $message }}</strong>
+																</span>
+															@enderror
+														</div>
+
 														<input type="text" class="form-control rounded" placeholder="Contoh doang" style="border:none;" name="picture" id="picture">
 													</div>
-											</div>
+												</div>
 											<hr>
-											<ul class="d-flex flex-wrap align-items-center list-inline m-0 p-0">
-												<li class="col-md-6 mb-3">
-													<div class="iq-bg-primary rounded p-2 pointer mr-3"><a href="#"></a><img src="{{asset('template/images/small/07.png')}}" alt="icon" class="img-fluid"> Photo/Video</div>
-												</li>
-													</ul>
 											<button type="submit" class="btn btn-primary d-block w-100 mt-3 btnpost" disabled = "disabled">Post</button>
 										</form>
 									</div>
@@ -147,7 +152,7 @@
 					            <p>{{$posts->caption}}</p>
 					         </div>
 					         <div class="user-post">
-					            <a href="javascript:void();"><img src="{{asset('template/images/page-img/p4.jpg')}}" alt="post-image" class="img-fluid rounded w-100"></a>
+					            <a href="javascript:void();"><img src="{{asset('storage/image/posts/'.$posts->picture)}}" alt="" class="img-fluid rounded w-100"></a>
 					         </div>
 					         <div class="comment-area mt-3">
 					            <div class="d-flex justify-content-between align-items-center">
@@ -393,7 +398,14 @@
 	    		$('.btnpost').attr('disabled', true);
 	    	}
 	    });
+	document.querySelector('.custom-file-input').addEventListener('change',function(e){
+		var fileName = document.getElementById("picture").files[0].name;
+		var nextSibling = document.getElementById("picture-file");
+		nextSibling.innerText = fileName
+	})
 	});
+
+
 </script>
 
 @endpush

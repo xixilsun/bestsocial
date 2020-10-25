@@ -15,7 +15,16 @@
       <link rel="stylesheet" href="{{asset('template/css/style.css')}}">
       <!-- Responsive CSS -->
       <link rel="stylesheet" href="{{asset('template/css/responsive.css')}}">
-      
+      <style>
+      #customFile .custom-file-control:lang(en)::after {
+  content: "Select file...";
+}
+
+#customFile .custom-file-control:lang(en)::before {
+  content: "Click me";
+}
+
+      </style>
    </head>
    <body class="right-column-fixed">
       <!-- loader Start -->

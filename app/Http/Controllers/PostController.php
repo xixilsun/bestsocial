@@ -20,8 +20,21 @@ class PostController extends Controller
 
     public function index()
     {
-        $post = Post::orderBy('post_id', 'DESC')->get();
-
+        $id = array();
+        $user = Auth::User();
+        $posts = array();
+        foreach($user->following as $follow)
+        {
+            $id[] = $follow->following_id;
+            // $followed_user = User::find($follow->following_id);
+            // foreach($followed_user->posts as $post)
+            // {
+            //     $posts[]=$post;
+            // }
+        }
+        // dd($id);
+        // $post = Post::orderBy('post_id', 'DESC')->get();
+        $post = Post::whereIn('user_id',$id)->orderBy('post_id','DESC')->get();
         return view('home',compact('post'));
     }
 
@@ -44,10 +57,21 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
+        $request->validate([
+            'caption' => '',
+            'picture' => 'mimes:jpeg,bmp,png'
+        ]);
         //one to many
+        if($request->hasFile('picture'))
+        {
+            $dest_path = 'public/image/posts';
+            $pict_name = $request->file('picture')->getClientOriginalName();
+            $path = $request->file('picture')->storeAs($dest_path, $pict_name);
+
+        }
         $post = $user->posts()->create([
             "caption"=>$request["caption"],
-            "picture"=>$request["picture"]
+            "picture"=>$pict_name,
         ]);
         return redirect('/feed')->with('success','Post Berhasil disimpan!');
     }

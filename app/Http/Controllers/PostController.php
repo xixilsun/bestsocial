@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Post;
 use Auth;
 use App\Post_like;
-
+use App\Post_comment_like;
 class PostController extends Controller
 {
     /**
@@ -96,6 +96,21 @@ class PostController extends Controller
     {
         //one to many
         $post = Post_like::destroy($id);
+        return redirect()->back();
+    }
+    public function comment_like(Request $request)
+    {
+        $user = Auth::user();
+        //one to many
+        $comment = $user->post_comment_likes()->create([
+            "post_comment_id"=>$request["post_comment_id"]
+        ]);
+        return redirect()->back();
+    }
+    public function comment_dislike($id)
+    {
+        //one to many
+        $comment = Post_comment_like::destroy($id);
         return redirect()->back();
     }
     public function store_from_profile(Request $request)

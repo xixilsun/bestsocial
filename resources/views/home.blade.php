@@ -285,12 +285,32 @@
 					                        <h6><a href="/profile/{{$komen->user_id}}"> {{$komen->user->name}}</a></h6>
 					                        <p class="mb-0">{{$komen->comment}}</p>
 					                        <div class="d-flex flex-wrap align-items-center comment-activity">
-					                           <a href="javascript:void();">Like</a>
-					                           @if(Auth::id()==$komen->user_id)
+											@if(Auth::User()->post_comment_likes()
+					                          	->where('user_id', Auth::User()->id)
+					                          	->where('post_comment_id',$komen->post_comment_id)->first() == null
+					                          )
+				                   	            <form class="d-flex align-items-center" role="form" action="/comment/like" method="POST">
+                   								@csrf
+				                   	              <input type="text" class="form-control rounded" name="post_comment_id"  value="{{$komen->post_comment_id}}" hidden>
+					                          	<input class="ml-2 mr-2 align-items-center" type="image" src="{{asset('template/images/icon/like.png')}}" data-toggle="tooltip" data-placement="top" data-original-title="Like" >
+					                          	
+					                          </form>
+					                          @else
+				                   	            <form class="d-flex align-items-center" role="form" action="/comment/dislike/{{Auth::User()->post_comment_likes()
+					                          	->where('user_id', Auth::User()->id)
+					                          	->where('post_comment_id', $komen->post_comment_id)->first()->post_comment_like_id}}" method="POST">
+                   								@csrf
+					                          	<input class="ml-2 mr-2 align-items-center" type="image" src="{{asset('template/images/icon/dislike.png')}}" data-toggle="tooltip" data-placement="top" data-original-title="Dislike" >
+					                          	
+					                          </form>
+					                          @endif
+					                           <!-- <a href="javascript:void();">Like</a> -->
+					                           
+					                           <span> {{$komen->post_comment_likes()->count()}} Like</span>
+											   @if(Auth::id()==$komen->user_id)
 					                           <a href="/delete_comment/{{$komen->post_comment_id}}">delete</a>
 					                           @endif
-					                           <span> {{$komen->post_comment_likes()->count()}} Like</span>
-					                        </div>
+											</div>
 					                     </div>
 					                  </div>
 					               </li>

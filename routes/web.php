@@ -27,6 +27,8 @@ Route::get('/delete_comment/{id}','PostCommentController@destroy');
 Route::post('/comment/storeProfile','PostCommentController@storeProfile');
 Route::post('/like','PostController@like');
 Route::post('/dislike/{id}','PostController@dislike');
+Route::post('/comment/like','PostController@comment_like');
+Route::post('/comment/dislike/{id}','PostController@comment_dislike');
 Route::get('/profile/{id}','ProfileController@show');
 Route::post('/profile/{id}','ProfileController@follow');
 Route::put('/profile/{id}','ProfileController@update');

@@ -22,6 +22,7 @@ class PostController extends Controller
     {
         $id = array();
         $user = Auth::User();
+        $id[] = $user->id;
         $posts = array();
         foreach($user->following as $follow)
         {
@@ -57,18 +58,25 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        $request->validate([
-            'caption' => '',
-            'picture' => 'mimes:jpeg,bmp,png'
-        ]);
+        // dd($request);
         //one to many
         if($request->hasFile('picture'))
         {
             $dest_path = 'public/image/posts';
             $pict_name = $request->file('picture')->getClientOriginalName();
             $path = $request->file('picture')->storeAs($dest_path, $pict_name);
-
+            $request->validate([
+                'caption' => 'required',
+                'picture' => 'mimes:jpeg,bmp,png'
+            ]);
+            // dd($pict_name);
+        }else{
+            $pict_name = null;
+            $request->validate([
+                'caption' => 'required',
+            ]);
         }
+        // dd($request);
         $post = $user->posts()->create([
             "caption"=>$request["caption"],
             "picture"=>$pict_name,
@@ -120,9 +128,34 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
         //
+        // dd($id);
+        $user = Auth::user();
+        // dd($request);
+        // one to many
+        if($request->hasFile('image'))
+        {
+            $dest_path = 'public/image/posts';
+            $pict_name = $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs($dest_path, $pict_name);
+            $request->validate([
+                'caption' => 'required',
+                'image' => 'mimes:jpeg,bmp,png'
+            ]);
+        }else{
+            $pict_name = null;
+            $request->validate([
+                'caption' => 'required',
+            ]);
+        }
+        // dd($request);
+        $post = Post::find($id);
+        $post->caption = $request['caption'];
+        $post->picture = $pict_name;
+        $post->save();
+        return redirect()->back()->with('success','Post Updated!');
     }
 
     /**
@@ -146,6 +179,9 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+        $post = Post::find($id);
+        $post->delete();
+        return redirect()->back()->with('success','Post Deleted!');
     }
 
 }

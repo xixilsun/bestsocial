@@ -31,4 +31,6 @@ Route::get('/profile/{id}','ProfileController@show');
 Route::post('/profile/{id}','ProfileController@follow');
 Route::put('/profile/{id}','ProfileController@update');
 Route::post('/post/create', 'PostController@store_from_profile');
+Route::post('/post/{id}/edit','PostController@edit');
+Route::delete('/post/{id}/delete','PostController@destroy');
 //Route::get('/home', 'HomeController@index')->name('home');

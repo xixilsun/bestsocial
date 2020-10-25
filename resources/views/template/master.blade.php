@@ -17,12 +17,12 @@
       <link rel="stylesheet" href="{{asset('template/css/responsive.css')}}">
       <style>
       #customFile .custom-file-control:lang(en)::after {
-  content: "Select file...";
-}
+      content: "Select file...";
+      }
 
-#customFile .custom-file-control:lang(en)::before {
-  content: "Click me";
-}
+      #customFile .custom-file-control:lang(en)::before {
+      content: "Click me";
+      }
 
       </style>
    </head>
